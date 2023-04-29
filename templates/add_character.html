@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="/character_style.css">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Add Character</title>
+</head>
+
+<body>
+	<h1>Add a Character</h1>
+	<form action="add_char" method="post">
+		<div class="container1">
+			<div class="table">
+				<div class="tr">
+					<div class="th">Name:</div>
+					<div class="th">Class:</div>
+					<div class="th">Itemlevel:</div>
+				</div>
+				<div class="tr">
+					<div class="td">
+						<input type="text" id="cname" placeholder="Enter the Characters Name" name="name"/>
+					</div>
+					<div class="td">
+						<select id="cclass" placeholder"Enter the Characters Class" name="class_id">
+							{% for c in classes %}
+								<option value="{{c.id}}">{{c.name}}</option>
+							{% endfor %}
+						</select>
+					</div>
+					<div class="td">
+						<input type="text" id="cil" placeholder="Enter the Characters Item Level" name="item_level"/>
+					</div>
+				</div>
+				<input type="hidden" id="uid" name="user_id" value="{{uid}}"/>
+				<!-- Assigned by server -->
+				<input type="hidden" id="id" name="id" value="0"/>
+			</div>
+			<button type="submit" style="float:right;margin:0px 20px;">Add Character</button>
+		</div>
+	</form>
+</body>

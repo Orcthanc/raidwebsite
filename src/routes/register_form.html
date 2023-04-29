@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="login_style.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Register</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Register</h1>
+        <form action="/register" method="post">
+            <div class="row">
+                <div class="lcol">
+                    <label for="uname">Username:</label>
+                </div>
+                <div class="rcol">
+                    <input type="text" id="uname" placeholder="Enter Username" name="username">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="lcol">
+                    <label for="pword">Password:</label>
+                </div>
+                <div class="rcol">
+                    <input type="password" id="pword" placeholder="Enter Password" name="password">
+                </div>
+            </div>
+
+            <button type="submit">Register</button>
+        </form>
+        <a href="/login">Login</a> instead.
+    </div>
+
+</body>
+
+</html>

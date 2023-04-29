@@ -1,0 +1,35 @@
+.table, table {
+  display: table;
+  padding: 10px;
+}
+
+.tr {
+  display: table-row;
+}
+
+.th:nth-child(1), .td:nth-child(1), th:nth-child(1), td:nth-child(1) {
+  width: 20em;
+}
+
+.th:nth-child(2), .td:nth-child(2), th:nth-child(2), td:nth-child(2) {
+  width: 6em;
+}
+
+.th:nth-child(3), .td:nth-child(3), th:nth-child(3), td:nth-child(3) {
+  width: 5em;
+}
+
+.th {
+  font-size: 25px;
+}
+
+.th, .td {
+  padding: 10px;
+  display: table-cell;
+}
+
+.container1 {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+}

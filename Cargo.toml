@@ -1,0 +1,24 @@
+[package]
+name = "la-website-2"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix-session = { version = "0.7.2", features = ["cookie-session", "actix", "rand"] }
+actix-web = "4.3.1"
+actix-web-lab = "0.19.1"
+argon2 = { version = "0.5.0", features = ["password-hash"] }
+chrono = { version = "0.4.24", features = ["serde"] }
+dotenv = "0.15.0"
+env_logger = "0.10.0"
+log = { version = "0.4.17", features = ["std", "serde"] }
+mime = "0.3.17"
+secrecy = { version = "0.8.0", features = ["serde"] }
+serde = { version = "1.0.160", features = ["serde_derive"] }
+serde_json = "1.0.96"
+sqlx = { version = "0.6.3", features = ["runtime-actix-rustls", "mysql", "chrono"] }
+sqlx-core = "0.6.3"
+sqlx-mysql = "0.0.0"
+tera = "1.18.1"
