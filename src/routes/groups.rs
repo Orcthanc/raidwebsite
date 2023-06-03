@@ -84,19 +84,6 @@ async fn view_group(
     let mut users = Vec::new();
 
     for m in &members {
-        let raids = match sqlx::query!(
-            r#"SELECT CONCAT(name, " ", difficulty) AS rname
-            FROM raids
-            ORDER BY required_item_level"#)
-        .fetch_all(&mut trans)
-        .await {
-            Ok(v) => v,
-            Err(e) => {
-                error!("{:?}", e);
-                return HttpResponse::InternalServerError().body("Database error");
-            },
-        };
-
         let ent = match sqlx::query_as!(
             MemberEntry,
             r#"WITH 
@@ -227,13 +214,26 @@ async fn view_groups(
         Err(_) => panic!("Failed to connect to database"),
     };
 
+    #[derive(Deserialize, Serialize)]
+    struct GroupAmount {
+        id: i32,
+        name: String,
+        creator_id: i32,
+        amount: i64,
+    }
+
     let groups = match sqlx::query_as!(
-        Group,
-        "SELECT g.id, g.name, g.creator_id
+        GroupAmount,
+        "WITH mygroups AS (SELECT g.id, g.name, g.creator_id
         FROM groups g
         JOIN group_members gm
         ON g.id = gm.group_id
-        WHERE gm.user_id = ?",
+        WHERE gm.user_id = ?)
+        SELECT mg.id, mg.name, mg.creator_id, COUNT(gm.group_id) AS amount
+        FROM mygroups mg
+        JOIN group_members gm
+        ON gm.group_id = mg.id
+        GROUP BY mg.id",
         id
     ).fetch_all(&mut trans).await {
         Ok(v) => v,

@@ -3,8 +3,7 @@ use actix_web::{get, App, HttpServer, Responder, web::{Data, self}, middleware::
 use actix_web_lab::middleware::{from_fn, map_response};
 use actix_files::Files;
 use openssl::ssl::{SslAcceptor, SslMethod, SslFiletype};
-use routes::{register, login, login_form, register_form, logout, reject_unauth_user, base_styles, show_chars, login_style, character_style, add_char, post_add_char, update_activity, edit_chars, edit_chars_post, add_private_header, view_groups, create_group, create_group_post, edit_group, remove_user, invite_group, invites, accept_invite, decline_invite, view_group};
-use routes::UserId;
+use routes::*;
 use crypto::CookieSessionSecret;
 use sqlx::mysql::MySqlPoolOptions;
 use secrecy::{ExposeSecret, Secret};
@@ -17,13 +16,6 @@ mod crypto;
 
 #[get("/")]
 async fn index() -> impl Responder {
-    return HttpResponse::SeeOther()
-        .insert_header((LOCATION, "/login"))
-        .finish();
-}
-
-#[get("/")]
-async fn index2(_user_id: web::ReqData<UserId>) -> impl Responder {
     return HttpResponse::SeeOther()
         .insert_header((LOCATION, "/login"))
         .finish();
@@ -77,7 +69,6 @@ async fn main() -> std::io::Result<()> {
             .service(web::scope("/auth")
                 .wrap(from_fn(reject_unauth_user))
                 .wrap(map_response(add_private_header))
-                .service(index2)
                 .service(logout)
                 .service(show_chars)
                 .service(add_char)
@@ -97,7 +88,7 @@ async fn main() -> std::io::Result<()> {
                 .service(view_group)
             )
     })
-    .bind_openssl("127.0.0.1:8080", builder)?
+    .bind_openssl("0.0.0.0:8443", builder)?
     .run()
     .await
 }

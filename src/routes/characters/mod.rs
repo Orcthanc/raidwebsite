@@ -176,7 +176,8 @@ async fn add_char(
 
     let classes = sqlx::query_as!(
         Class,
-        "SELECT * FROM classes"
+        "SELECT * FROM classes
+        ORDER BY name"
     ).fetch_all(&mut trans)
     .await
     .unwrap();

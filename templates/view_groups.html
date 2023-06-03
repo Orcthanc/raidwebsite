@@ -32,7 +32,7 @@
                     <a href="/auth/groups/{{g.id}}">{{g.name}}</a>
                 </div>
                 <div class="td">
-                    0
+                    {{ g.amount }}
                 </div>
                 <div class="td">
                     {% if user_id == g.creator_id %}
