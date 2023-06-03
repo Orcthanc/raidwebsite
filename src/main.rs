@@ -2,6 +2,7 @@ use actix_session::{SessionMiddleware, storage::CookieSessionStore};
 use actix_web::{get, App, HttpServer, Responder, web::{Data, self}, middleware::Logger, cookie::Key, HttpResponse, http::header::LOCATION};
 use actix_web_lab::middleware::{from_fn, map_response};
 use actix_files::Files;
+use openssl::ssl::{SslAcceptor, SslMethod, SslFiletype};
 use routes::{register, login, login_form, register_form, logout, reject_unauth_user, base_styles, show_chars, login_style, character_style, add_char, post_add_char, update_activity, edit_chars, edit_chars_post, add_private_header, view_groups, create_group, create_group_post, edit_group, remove_user, invite_group, invites, accept_invite, decline_invite, view_group};
 use routes::UserId;
 use crypto::CookieSessionSecret;
@@ -48,7 +49,11 @@ async fn main() -> std::io::Result<()> {
         .await
         .expect("Could not connect to database");
 
-    let mut builder = 
+    let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
+
+    builder.set_private_key_file("key.pem", SslFiletype::PEM).unwrap();
+
+    builder.set_certificate_chain_file("cert.pem").unwrap();
 
     // Start the HTTP server
     HttpServer::new(move || {
@@ -92,7 +97,7 @@ async fn main() -> std::io::Result<()> {
                 .service(view_group)
             )
     })
-    .bind("127.0.0.1:8080")?
+    .bind_openssl("127.0.0.1:8080", builder)?
     .run()
     .await
 }
