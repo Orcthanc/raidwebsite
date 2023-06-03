@@ -29,7 +29,7 @@
         {% for g in groups %}
             <div class="tr">
                 <div class="td">
-                    <a href="/auth/groups/{{g.id}}">{{g.name}}</a>
+                    <a href="/auth/groups/{{g.id}}" style="padding: 20px 0px; font-size: 1.5rem;">{{g.name}}</a>
                 </div>
                 <div class="td">
                     {{ g.amount }}
@@ -45,7 +45,7 @@
                 </div>
             </div>
         {% endfor %}
-        <div class="buttons">
+        <div class="buttons" style="padding: 10px 0px">
             <a href="groups/new" class="button">Create New Group</a>
         </div>
     </div>
