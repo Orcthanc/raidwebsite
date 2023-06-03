@@ -26,6 +26,7 @@ pub struct Character {
 pub struct Class {
     pub id: i32,
     pub name: String,
+    pub support: u8,
 }
 
 #[derive(Deserialize)]
@@ -43,7 +44,7 @@ pub struct UserRaid {
     pub raid_id: i32,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct Group {
     pub id: i32,
     pub name: String,
@@ -56,3 +57,9 @@ pub struct GroupMember {
     pub user_id: i32,
 }
 
+#[derive(Deserialize, Serialize)]
+pub struct Invite {
+    pub source: i32,
+    pub dest: i32,
+    pub group_id: i32,
+}

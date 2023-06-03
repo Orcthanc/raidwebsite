@@ -1,7 +1,8 @@
 use actix_session::{SessionMiddleware, storage::CookieSessionStore};
-use actix_web::{get, App, HttpServer, Responder, web::{Data, self}, middleware::Logger, cookie::Key};
-use actix_web_lab::middleware::from_fn;
-use routes::{register, login, login_form, register_form, logout, reject_unauth_user, base_styles, show_chars, login_style, character_style, add_char, post_add_char};
+use actix_web::{get, App, HttpServer, Responder, web::{Data, self}, middleware::Logger, cookie::Key, HttpResponse, http::header::LOCATION};
+use actix_web_lab::middleware::{from_fn, map_response};
+use actix_files::Files;
+use routes::{register, login, login_form, register_form, logout, reject_unauth_user, base_styles, show_chars, login_style, character_style, add_char, post_add_char, update_activity, edit_chars, edit_chars_post, add_private_header, view_groups, create_group, create_group_post, edit_group, remove_user, invite_group, invites, accept_invite, decline_invite, view_group};
 use routes::UserId;
 use crypto::CookieSessionSecret;
 use sqlx::mysql::MySqlPoolOptions;
@@ -15,12 +16,16 @@ mod crypto;
 
 #[get("/")]
 async fn index() -> impl Responder {
-    "Hello, world!"
+    return HttpResponse::SeeOther()
+        .insert_header((LOCATION, "/login"))
+        .finish();
 }
 
 #[get("/")]
-async fn index2(user_id: web::ReqData<UserId>) -> impl Responder {
-    format!("Hello, {}!", *user_id)
+async fn index2(_user_id: web::ReqData<UserId>) -> impl Responder {
+    return HttpResponse::SeeOther()
+        .insert_header((LOCATION, "/login"))
+        .finish();
 }
 
 #[actix_web::main]
@@ -43,6 +48,8 @@ async fn main() -> std::io::Result<()> {
         .await
         .expect("Could not connect to database");
 
+    let mut builder = 
+
     // Start the HTTP server
     HttpServer::new(move || {
         App::new()
@@ -53,6 +60,7 @@ async fn main() -> std::io::Result<()> {
                     CookieSessionStore::default(),
                     Key::from(cookie_secret.secret.expose_secret().as_bytes())))
             .wrap(Logger::new("%a: %r, %s"))
+            .service(Files::new("/static", "./static").show_files_listing())
             .service(base_styles)
             .service(login_style)
             .service(character_style)
@@ -63,11 +71,25 @@ async fn main() -> std::io::Result<()> {
             .service(login_form)
             .service(web::scope("/auth")
                 .wrap(from_fn(reject_unauth_user))
+                .wrap(map_response(add_private_header))
                 .service(index2)
                 .service(logout)
                 .service(show_chars)
                 .service(add_char)
                 .service(post_add_char)
+                .service(update_activity)
+                .service(edit_chars)
+                .service(edit_chars_post)
+                .service(view_groups)
+                .service(create_group)
+                .service(create_group_post)
+                .service(edit_group)
+                .service(remove_user)
+                .service(invite_group)
+                .service(invites)
+                .service(accept_invite)
+                .service(decline_invite)
+                .service(view_group)
             )
     })
     .bind("127.0.0.1:8080")?

@@ -1,22 +1,68 @@
-.table, table {
-  display: table;
-  padding: 10px;
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 1rem;
+  text-align: left;
+}
+
+.char-container {
+  display: inline-block;
+  margin: 0 auto;
+  padding: 1rem;
+  background-color: #242125;
+  border-radius: 5px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.activity-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.activity-box {
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  border: 1px solid #555;
+  cursor: pointer;
+}
+
+.activity-box.completed {
+  background-color: #ffca3a;
+}
+
+.activity-box.not-completed {
+  background-color: #00c853;
+}
+
+.activity-box.unavailable {
+  background-color: #e53935;
+}
+
+.activity-table td {
+  vertical-align: middle;
 }
 
 .tr {
   display: table-row;
 }
 
-.th:nth-child(1), .td:nth-child(1), th:nth-child(1), td:nth-child(1) {
+.th:nth-child(1), .td:nth-child(1) {
   width: 20em;
 }
 
-.th:nth-child(2), .td:nth-child(2), th:nth-child(2), td:nth-child(2) {
+.th:nth-child(2), .td:nth-child(2) {
   width: 6em;
 }
 
-.th:nth-child(3), .td:nth-child(3), th:nth-child(3), td:nth-child(3) {
-  width: 5em;
+.th:nth-child(3), .td:nth-child(3) {
+  width: 7em;
 }
 
 .th {
@@ -24,7 +70,7 @@
 }
 
 .th, .td {
-  padding: 10px;
+  padding: 4px 10px;
   display: table-cell;
 }
 
@@ -32,4 +78,19 @@
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0);
+}
+
+thead > tr > th {
+  writing-mode: vertical-rl;
+  padding-bottom: 1em;
+}
+
+.thwrapper {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+td, th {
+  padding: 0;
 }

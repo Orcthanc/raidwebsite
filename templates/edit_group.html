@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="/character_style.css">
+	<link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Edit Group</title>
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+</head>
+
+<body>
+	{% include "header.html" %}
+
+	<h1>Edit Group {{gname}}</h1>
+    <div class="container1">
+        <div class="tr">
+            <div class="th">
+                Name:
+            </div>
+            <div class="th">
+                Kick:
+            </div>
+        </div>
+        {% for m in members %}
+        <div class="tr">
+            <div class="td">
+                {{m.name}}
+            </div>
+            <div class="td">
+                <a href="../remove/{{group}}/{{m.id}}" style="font-size: 2rem; text-decoration: none;">🥾</a>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="tr">
+            <form action="{{group}}/invite" method="post">
+                <div class="td">
+                    <input type="text" id="uname" placeholder="User to invite" name="name" />
+                </div>
+                <div class="td">
+                    <button type="submit">Invite</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>

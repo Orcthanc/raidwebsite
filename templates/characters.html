@@ -2,33 +2,61 @@
 <html lang="en">
 
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-	<link rel="stylesheet" href="/character_style.css">
-    <link rel="stylesheet" href="/styles.css">
-    <title>Character Overview</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="/character_style.css">
+  <link rel="stylesheet" href="/static/header.css">
+  <link rel="stylesheet" href="/styles.css">
+  <script defer src="/static/activity_handler.js"></script>
+  <title>Character Overview</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
 </head>
 
 <body>
-	<h1>{{name}}'s Characters</h1>
-	<div class="container1">
-		<table>
-			<thead>
-				<tr>
-					<th align="left">Name</th>
-					<th align="left">Class</th>
-					<th align="left">Itemlevel</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for c in chars %}
-				<tr>
-					<td>{{ c.name }}</td>
-					<td>{{ c.class }}</td>
-					<td>{{ c.item_level }}</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-		<a href="add_char" class="button">Add Character</a>
-	</div>
+	{% include "header.html" %}
+  <h1>{{name}}'s Characters</h1>
+  <div class="char-container">
+    <table class="activity-table">
+      <thead>
+        <tr>
+          <th></th>
+          {% for activity in activities %}
+		        <th>
+			        <div class="thwrapper">{{ activity.name }} ({{ activity.difficulty }})</div>
+		        </th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in chars %}
+          <tr>
+            <th>{{ c.name }} ({{ c.class }} - {{ c.item_level }})</th>
+            {% for activity in c.activities %}
+            <td>
+              {% set characterActivity = activity %}
+              {% if characterActivity.completed %}
+              {% set boxClass = 'completed' %}
+              {% elif characterActivity.available %}
+              {% set boxClass = 'not-completed' %}
+              {% else %}
+              {% set boxClass = 'unavailable' %}
+              {% endif %}
+              <div
+                class="activity-box {{ boxClass }}"
+                data-character-id="{{ c.id }}"
+                data-activity-id="{{ activity.id }}"
+                onclick="toggleActivity(event)"
+              ></div>
+            </td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a href="add_char" class="button">Add Character</a>
+    <a href="edit_chars" class="button">Edit Characters</a>
+  </div>
 </body>
+
+</html>

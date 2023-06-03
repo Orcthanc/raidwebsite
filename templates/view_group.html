@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="/character_style.css">
+	<link rel="stylesheet" href="/static/tooltip.css">
+	<link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/styles.css">
+    <title>{{gname}}</title>
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+</head>
+
+<body>
+	{% include "header.html" %}
+
+	<h1>{{gname}}</h1>
+    <div class="char-container">
+        <table>
+            <thead>
+                <tr>
+                    <th/>
+                    <th/>
+                    {% for r in users[0].raids %}
+                        <th>
+                            <div class="thwrapper">
+                                {{r.name}}
+                            </div>
+                        </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            {% for u in users %}
+                <tr>
+                    <th>
+                        {{u.name}}
+                    </th>
+                    <td>
+                        <div class="amountbox" style="padding: 10px 0px">
+                            <div>Dps</div>
+                            <div>Support</div>
+                        </div>
+                    </td>
+                    {% for r in u.raids %}
+                        <td>
+                            <div class="amountbox">
+                                <div class="tooltip">
+                                    {% if r.dd | length > 0 %}
+                                    {{ r.dd | length }}
+                                    <span class="tooltiptext">
+                                        {% for u in r.dd %}
+                                            <div class="userlist">
+                                                {{u}}
+                                            </div>
+                                        {% endfor %}
+                                    </span>
+                                    {% else %}
+                                        &nbsp;
+                                    {% endif %}
+                                </div>
+                                <div class="tooltip">
+                                    {% if r.support | length > 0 %}
+                                    {{ r.support | length }}
+                                    <span class="tooltiptext">
+                                        {% for u in r.support %}
+                                            <div class="userlist">
+                                                {{u}}
+                                            </div>
+                                        {% endfor %}
+                                    </span>
+                                    {% else %}
+                                        &nbsp;
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>

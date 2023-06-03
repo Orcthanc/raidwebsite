@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="/character_style.css">
+	<link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Create Group</title>
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+</head>
+
+<body>
+	{% include "header.html" %}
+
+	<h1>Create Group</h1>
+    <form action="new" method="post">
+        <div class="container1">
+            <div class="tr">
+                <div class="td">
+                    <input type="text" minlength="2" id="gname" placeholder="Enter the groups name" name="name"/>
+                </div>
+                <div class="td">
+                    <button type="submit">Create Group</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>

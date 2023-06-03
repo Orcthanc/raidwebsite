@@ -15,7 +15,8 @@ CREATE TABLE cookies (
 
 CREATE TABLE classes (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL UNIQUE
+    name VARCHAR(255) NOT NULL UNIQUE,
+    support BIT NOT NULL
 );
 
 CREATE TABLE characters (
@@ -32,7 +33,8 @@ CREATE TABLE raids (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     difficulty VARCHAR(255) NOT NULL,
-    required_item_level INTEGER NOT NULL
+    required_item_level INTEGER NOT NULL,
+    three_weekly BIT NOT NULL
 );
 
 CREATE TABLE user_raids (
@@ -58,4 +60,12 @@ CREATE TABLE group_members (
     PRIMARY KEY (group_id, user_id),
     FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE raid_prerequisites (
+    raid INTEGER NOT NULL,
+    requires INTEGER NOT NULL,
+    PRIMARY KEY (raid, requires),
+    FOREIGN KEY (raid) REFERENCES raids(id) ON DELETE CASCADE,
+    FOREIGN KEY (requires) REFERENCES raids(id) ON DELETE CASCADE
 );

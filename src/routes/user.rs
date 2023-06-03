@@ -3,7 +3,7 @@ use std::ops::Deref;
 use actix_session::{Session, SessionExt};
 use actix_web::body::MessageBody;
 use actix_web::dev::{ServiceRequest, ServiceResponse};
-use actix_web::http::header::{ContentType, LOCATION};
+use actix_web::http::header::{ContentType, LOCATION, self, HeaderValue};
 use actix_web::{get, post, web, HttpResponse, Responder, HttpMessage};
 use actix_web_lab::middleware::Next;
 use sqlx::{MySqlPool, query_as};
@@ -55,7 +55,10 @@ async fn register(
                 error!("{:?}", e);
                 return HttpResponse::InternalServerError().finish();
             }
-            return HttpResponse::Ok().body("User registered successfully");
+            return HttpResponse::SeeOther()
+                .insert_header((LOCATION, "/login"))
+                .finish();
+
         },
         Err(e) => {
             return match e {
@@ -117,7 +120,7 @@ async fn login(
     };
 }
 
-#[post("/logout")]
+#[get("/logout")]
 async fn logout(
     session: Session,
 ) -> impl Responder {
@@ -173,3 +176,14 @@ pub async fn reject_unauth_user(
         }
     }
 }
+
+pub async fn add_private_header(
+    mut res: ServiceResponse<impl MessageBody>,
+) -> actix_web::Result<ServiceResponse<impl MessageBody>> {
+    res.headers_mut().insert(header::CACHE_CONTROL, HeaderValue::from_static("no-cache, no-store, private"));
+    res.headers_mut().insert(header::PRAGMA, HeaderValue::from_static("no-cache"));
+    res.headers_mut().insert(header::EXPIRES, HeaderValue::from_static("0"));
+
+    Ok(res)
+}
+

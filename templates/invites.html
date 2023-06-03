@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="/character_style.css">
+	<link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/styles.css">
+    <title>My Invites</title>
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+</head>
+
+<body>
+	{% include "header.html" %}
+
+	<h1>Invites</h1>
+
+    <div class="container1">
+        {% for i in invites %}
+            <div class="tr">
+                <div class="td">
+                    <b>{{i.groupn}}</b> (Invited from {{i.src}})
+                </div>
+                <div class="td">
+                    <a href="invites/accept/{{i.id}}" style="font-size: 2rem; text-decoration: none;">✅</a>
+                </div>
+                <div class="td">
+                    <a href="invites/decline/{{i.id}}" style="font-size: 2rem; text-decoration: none;">❌</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</body>

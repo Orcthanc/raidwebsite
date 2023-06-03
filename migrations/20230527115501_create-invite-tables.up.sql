@@ -1,0 +1,18 @@
+-- Add up migration script here
+CREATE TABLE invites (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    source INTEGER NOT NULL,
+    dest INTEGER NOT NULL,
+    group_id INTEGER NOT NULL,
+    FOREIGN KEY (source) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (dest) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE
+);
+
+CREATE TABLE blocked_players (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    source INTEGER NOT NULL,
+    dest INTEGER NOT NULL,
+    FOREIGN KEY (source) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (dest) REFERENCES users(id) ON DELETE CASCADE
+);

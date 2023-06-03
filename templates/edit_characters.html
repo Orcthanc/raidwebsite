@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="/character_style.css">
+    <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Edit Characters</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+</head>
+
+<body>
+	{% include "header.html" %}
+    <h1>Edit Characters</h1>
+    <form action="edit_chars" method="post">
+        <div class="container1">
+            <div class="table">
+                <div class="tr">
+                    <div class="th">Name:</div>
+                    <div class="th">Class:</div>
+                    <div class="th">Itemlevel:</div>
+                </div>
+                {% for c in chars %}
+                    <input type="hidden" id="cuid" value="{{c.user_id}}" name="cuid[]"/>
+                    <input type="hidden" value="{{c.id}}" name="cid[]"/>
+                    <div class="tr">
+                        <div class="td">
+                            <input type="text" id="cname" placeholder="Enter the Characters Name" name="cname[]" value="{{c.name}}"/>
+                            <input type="hidden" value="{{c.name}}" name="oldcname[]"/>
+                        </div>
+				    	<div class="td">
+				    		<input type="hidden" value="{{c.class_id}}" name="oldcclass_id[]">
+				    		<select id="cclass" placeholder="Enter the Characters Class" name="cclass_id[]" value="{{c.class_id}}">
+				    			{% for cl in classes %}
+				    				<option
+                                        {% if cl.id == c.class_id %} selected="selected" {% endif %}
+                                    value="{{cl.id}}">{{cl.name}}</option>
+				    			{% endfor %}
+				    		</select>
+				    	</div>
+				    	<div class="td">
+				    		<input type="text" id="cil" placeholder="Enter the Characters Item Level" name="item_level[]" value="{{c.item_level}}"/>
+				    		<input type="hidden" name="olditem_level[]" value="{{c.item_level}}"/>
+				    	</div>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="submit" style="float:right;margin:0px 20px;">Save</button>
+        </div>
+    </form>
+</body>
