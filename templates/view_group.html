@@ -25,7 +25,7 @@
                     <th/>
                     {% for r in users[0].raids %}
                         <th>
-                            <div class="thwrapper" {% if loop.index % 2 == 0 %} style="color: #ffca3a" {% endif %}>
+                            <div class="thwrapper" {% if loop.index % 2 == 1 %} style="color: #ffca3a" {% endif %}>
                                 {{r.name}}
                             </div>
                         </th>
@@ -45,7 +45,7 @@
                     </td>
                     {% for r in u.raids %}
                         <td>
-                            <div class="amountbox" {% if loop.index % 2 == 0 %} style="color: #ffca3a" {% endif %}>
+                            <div class="amountbox" {% if loop.index % 2 == 1 %} style="color: #ffca3a" {% endif %}>
                                 <div class="tooltip">
                                     {% if r.dd | length > 0 %}
                                     {{ r.dd | length }}
