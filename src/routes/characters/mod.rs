@@ -267,7 +267,7 @@ async fn show_chars(
     ).fetch_one(&mut trans).await;
 
     let activities: Vec<Activity> = sqlx::query!(
-        "SELECT id, name, difficulty FROM raids ORDER BY required_item_level"
+        "SELECT id, name, difficulty FROM raids ORDER BY id"
         ).fetch_all(&mut trans)
         .await.unwrap().iter().map(|e| {
             Activity{id: e.id, name: e.name.clone(), difficulty: e.difficulty.clone(), completed: false, available: true}
@@ -316,7 +316,7 @@ async fn show_chars(
                         FROM
                             raids AS r
                         LEFT JOIN 
-                            user_raids AS ur ON r.id = ur.raid_id AND ur.character_id = ? ORDER BY r.required_item_level;",
+                            user_raids AS ur ON r.id = ur.raid_id AND ur.character_id = ? ORDER BY r.id;",
                         e.id,
                         e.id,
                         e.id,
@@ -436,7 +436,7 @@ async fn update_activity(
         FROM
             raids AS r
         LEFT JOIN 
-            user_raids AS ur ON r.id = ur.raid_id AND ur.character_id = ? ORDER BY r.required_item_level;",
+            user_raids AS ur ON r.id = ur.raid_id AND ur.character_id = ? ORDER BY r.id;",
         update.character_id,
         update.character_id,
         update.character_id,

@@ -143,7 +143,7 @@ async fn view_group(
             FROM raids r
             LEFT JOIN available a
             ON r.id = a.id
-            ORDER BY r.required_item_level"#,
+            ORDER BY r.id"#,
             m.user_id,
             m.user_id,
             m.user_id,
